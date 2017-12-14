@@ -1,0 +1,52 @@
+.card {
+	min-height:315px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  	text-align: center;
+
+ }
+
+.animate {
+	opacity: 0;
+}
+
+.animate.is-visible {
+	animation: Items 300ms ease-in forwards;
+}
+@keyframes Items {
+	0% {
+		opacity: 0;
+		transform: translateY(-300px);
+	}
+
+	90% {
+		transform:translateY(10px);
+	}
+	100% {
+    transform:translateY(0px);
+		opacity: 1;
+	}
+}
+ /*
+ .animate {
+  	transition: transform;
+	animation-name: coming;
+	animation-duration: 0.5s;
+	animation-iteration-count: 1;
+	animation-timing-function: ease;
+}
+
+@keyframes coming {
+	0% {
+		transform: translateX(-300px);
+		opacity: 0;
+	}
+	100% {
+		transform: translateX(0px);
+		opacity: 1;
+	}
+}*/
+
+
+.col-md-4 {
+	padding: 1em;
+}
