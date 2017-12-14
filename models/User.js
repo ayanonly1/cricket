@@ -19,6 +19,11 @@ const UserSchema = new mongoose.Schema({
     required: true,
   },
 
+  balance: {
+    type: Number,
+    default: 0,
+  },
+
 });
 
 
