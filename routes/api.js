@@ -1,7 +1,15 @@
 const express = require('express');
-const jwt  = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const config = require('../config/index');
+
+// models
 const User = require('../models/User');
+const Question = require('../models/Question');
+const Bet = require('../models/Bet');
+
+const {
+  requireLogin,
+} = require('../middlewares/index');
 
 const router = express.Router();
 /* Authenticate the user and reply back with a payload */
@@ -71,6 +79,108 @@ router.post('/register', (req, res) => {
       data: {
         id: user.id,
       },
+    });
+  });
+});
+
+
+router.post('/question/add', (req, res) => {
+  const questionDescription = req.body.question;
+  if (!questionDescription) {
+    return res.json({
+      error: true,
+    });
+  }
+  const question = new Question({
+    description: questionDescription,
+  });
+  question.save((err) => {
+    if (err) {
+      return res.json({
+        error: true,
+      });
+    }
+    res.json({
+      error: false,
+      data: question,
+    });
+  });
+});
+
+router.get('/question', requireLogin, (req, res) => {
+  Question.find({}, (err, questions) => {
+    if (err) {
+      return res.json({
+        error: true,
+      });
+    }
+    res.json({
+      error: false,
+      data: questions,
+    });
+  });
+});
+
+
+router.post('/bet', requireLogin, (req, res) => {
+  const user_id = req.session.user.id;
+  const question_id = req.body.question_id;
+  const amount = req.body.amount;
+  const opinion = req.body.opinion === 'true';
+  User.findById(user_id, (err, user) => {
+    if (err) {
+      return res.json({
+        error: true,
+        message: err.toString(),
+      });
+    }
+
+    if (user.balance <= amount) {
+      return res.json({
+        error: true,
+        message: 'Not sufficient balance',
+      });
+    }
+
+    // deduct balance from user
+    User.findOneAndUpdate({
+      _id: user_id,
+    }, {
+      $set: {
+        balance: (user.balance - amount),
+      },
+    }, {
+      new: true,
+    }, (err) => {
+      if (err) {
+        return res.json({
+          error: true,
+          message: err.toString(),
+        });
+      }
+
+      Bet.find({ user_id, question_id }, (err, bet) => {
+        if (bet.length) {
+          return res.json({ error: true });
+        }
+        const betS = new Bet({
+          user_id,
+          question_id,
+          amount,
+          opinion,
+        });
+        betS.save((err) => {
+          if (err) {
+            return res.json({
+              error: true,
+            });
+          }
+          res.json({
+            error: false,
+            data: betS,
+          });
+        });
+      });
     });
   });
 });

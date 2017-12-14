@@ -6,3 +6,17 @@ body {
 a {
   color: #00B7FF;
 }
+
+.description {
+	padding: 1rem;
+	margin: 1em;
+	font-size: larger;
+}
+
+.yes_radio {
+  margin: 1em;
+}
+
+.amount {
+	margin: 1em;
+}
