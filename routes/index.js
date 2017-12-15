@@ -8,7 +8,7 @@ const Bet = require('../models/Bet');
 const { isDisabled } = require('../config/index');
 
 const cols = ['#e67e22', '#3498db', '#1abc9c', '#8D608C'];
-const colors = [...cols, ...cols, ...cols, ...cols, ...cols, ...cols];
+const colors = [...cols, ...cols, ...cols, ...cols, ...cols, ...cols, ...cols];
 /* GET home page. */
 router.get('/', requireLogin, (req, res) => {
   const userId = req.session.user.id;
