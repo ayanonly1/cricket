@@ -35,6 +35,17 @@ function updateUI(question_id, amount, opinion) {
   $(`#${question_id}`).addClass('success');
   window.balance = balance - amount;
   $('#balance').html(balance);
+
+  console.log(opinion);
+  if (opinion) {
+    const oldFor = $(`#${question_id}`).find('.for').html();
+    const newFor = Number(oldFor) + Number(amount);
+    $(`#${question_id}`).find('.for').html(newFor);
+  } else {
+    const oldAgainst = $(`#${question_id}`).find('.against').html();
+    const newAgianst = Number(oldAgainst) + Number(amount);
+    $(`#${question_id}`).find('.against').html(newAgianst);
+  }
 }
 
 
