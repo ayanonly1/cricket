@@ -35,7 +35,7 @@ function updateUI(question_id, amount, opinion) {
   $(`#${question_id}`).addClass('success');
 }
 
-
+/*
 $(document).ready(() => {
   const trs = $('#tbody').children();
   trs.each((tr) => {
@@ -48,3 +48,4 @@ $(document).ready(() => {
     }(trs[tr]));
   });
 });
+*/

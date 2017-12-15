@@ -15,6 +15,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 	<!-- sweet alert css -->
 	<link rel="stylesheet" href="/css/sweetalert.css">
+	<link rel="stylesheet" href="/css/w3.css">
 
 </head>
 
@@ -24,7 +25,7 @@
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
-				aria-controls="navbar">
+				 aria-controls="navbar">
 					<span class="sr-only">Toggle navigation</span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
@@ -56,54 +57,110 @@
 	</nav>
 
 	<div class="container">
-		<div class="row">
+		<div class="row league-header">
 			<div class="col-md-10">
-					<h3>FusionCharts Premire League</h3>
+				<h3>FusionCharts Premire League</h3>
 			</div>
-			<div class="col-md-2 text-right">
+			<div class="col-md-2 text-center">
 				<br>
-					<button class="btn btn-default" onclick="swal('Please contact FCCB members')">Add balance</button>
+				<button class="btn btn-default" onclick="swal('Please contact FCCB members')">Add balance</button>
 			</div>
 		</div>
-		<table class="table table-bordered">
-			<thead>
-				<tr>
-					<th>#</th>
-					<th>Description</th>
-					<th>Amount</th>
-          <th>Agree?</th>
-					<th>Action</th>
-					<th>For</th>
-					<th>Against</th>
-				</tr>
-			</thead>
-			<tbody id="tbody">
-      <% const questions_ids = bets.map(bet => String(bet.question_id)); let count = 0; %>
-      <% questions.forEach(que => { %>
-        <% count++; if (questions_ids.includes(String(que._id))) { %>
-           <tr class="success" id="<%= String(que._id) %>" onload="console.log(this.id)">
-             <% const bet_no = questions_ids.indexOf(String(que._id)) %>
-              <th scope="row"><%= count %></th>
-              <td><%= que.description %></td>
-              <td><%= bets[bet_no].amount %></td>
-              <td><%= bets[bet_no].opinion === true ? 'Yes' : 'No'%></td>
-              <td><%= 'Locked' %></td>
-          </tr>
-        <% } else { %>
-          <tr id="<%= String(que._id) %>">
-            <th scope="row"><%= count %></th>
-            <td><%= que.description %></td>
-           
-            <td class="amount"><input type="number" name="amount" class="form-control" id="<%= que._id %>_amount" value="0" min="0"></td>
-           
-            <td class="opinion">Yes: <input type="radio" value="true" name="opinion" id="<%= que._id %>_opinion_true" required>
-              No: <input type="radio" value="false" name="opinion" id="<%= que._id %>_opinion_false"required>
-            <td class="action"><button type="button" onclick="bet('<%= que._id %>')" class="btn btn-success btn-sm">Lock</button></td>
-          </tr>
-        <% } %>
-      <% }) %> 
-			</tbody>
-		</table>
+		<div id="tbody">
+			<% const questions_ids = bets.map(bet => String(bet.question_id)); let count = 0; %>
+				<% questions.forEach(que => { %>
+					<% count++; if (questions_ids.includes(String(que._id))) { %>
+						<div class="success" id="<%= String(que._id) %>">
+							<% const bet_no = questions_ids.indexOf(String(que._id)) %>
+								<div class="w3-card-2 bet-card">
+									<div class="locked-text">
+										<%= 'Locked' %>
+									</div>
+									<div class="bet-details">
+										<h1 class="bet-heading">
+											<%= que.description %>
+										</h1>
+										<div>
+											<div class="for">
+												For:
+												<span class="for-value" id="
+												<%= 'for-' + String(que._id) %>">
+													0
+												</span>
+											</div>
+											<div class="against">
+												Against:
+												<span class="against-value" id="
+												<%= 'against-' + String(que._id) %>">
+													0
+												</span>
+											</div>
+											<div style="clear: both"></div>
+										</div>
+										<div>
+											<div class="amount">
+												Amount:
+												<span class="amount-value">
+													<%= bets[bet_no].amount %>
+												</span>
+											</div>
+											<div class="opinion">
+												Opinion:
+												<span class="opinion-value">
+													<%= bets[bet_no].opinion === true ? 'Yes' : 'No'%>
+												</span>
+											</div>
+											<div style="clear: both"></div>
+										</div>
+									</div>
+								</div>
+						</div>
+						<% } else { %>
+
+							<div id="<%= String(que._id) %>">
+								<% const bet_no = questions_ids.indexOf(String(que._id)) %>
+									<div class="w3-card-2 bet-card">
+										<div class="bet-details">
+											<h1 class="bet-heading">
+												<%= que.description %>
+											</h1>
+											<div style="margin-bottom: 10px;">
+												<div class="for">
+													For:
+													<span class="for-value" id="
+																				<%= 'for-' + String(que._id) %>">
+														0
+													</span>
+												</div>
+												<div class="against">
+													Against:
+													<span class="against-value" id="
+																				<%= 'against-' + String(que._id) %>">
+														0
+													</span>
+												</div>
+												<div style="clear: both"></div>
+											</div>
+											<div>
+												<div class="amount">
+													<input type="number" name="amount" class="form-control" id="<%= que._id %>_amount" value="0" min="0" placeholder="amount">
+												</div>
+												<div class="opinion">
+													Yes:
+													<input type="radio" value="true" name="opinion" id="<%= que._id %>_opinion_true" required> No:
+													<input type="radio" value="false" name="opinion" id="<%= que._id %>_opinion_false" required>
+												</div>
+												<div style="clear: both"></div>
+											</div>
+											<div class="lock-btn-holder">
+												<button class="lock-btn" type="button" onclick="bet('<%= que._id %>')" class="btn btn-success btn-sm">Lock</button>
+											</div>
+										</div>
+									</div>
+							</div>
+							<% } %>
+								<% }) %>
+		</div>
 
 	</div>
 	<!-- /.container -->
@@ -116,7 +173,7 @@
 	</script>
 	<script src="/scripts/app.js"></script>
 	<script>
-	
+
 	</script>
 </body>
 

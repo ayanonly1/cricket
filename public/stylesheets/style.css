@@ -1,22 +1,61 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    padding: 10px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
-  color: #00B7FF;
+    color: #00B7FF;
 }
 
-.description {
-	padding: 1rem;
-	margin: 1em;
-	font-size: larger;
+.locked-text {
+    padding: 1px;
+    color: white;
+    background: green;
+    font-size: 10px;
+    float: right;
 }
 
-.yes_radio {
-  margin: 1em;
+.bet-card {
+    padding: 0px 0 10px 10px;
+    margin-bottom: 15px;
 }
 
-.amount {
-	margin: 1em;
+.bet-heading {
+    font-size: 20px;
+}
+
+.bet-details {
+    padding: 10px;
+}
+
+.amount,
+.opinion {
+    float: left;
+    box-sizing: border-box;
+    width: 50%;
+}
+
+.opinion {
+    padding-left: 10px;
+}
+
+.for,
+.against {
+    float: left;
+    box-sizing: border-box;
+    width: 50%;
+}
+
+.lock-btn-holder {
+    text-align: right;
+    padding: 10px 0 0 0;
+}
+
+.league-header {
+    margin: 60px 0 20px 0;
+}
+
+.league-header h3 {
+    margin: 0;
+    text-align: center;
 }
