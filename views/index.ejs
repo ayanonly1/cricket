@@ -1,33 +1,121 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>FusionBET</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>FusionBET | Log in</title>
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <!-- Bootstrap 3.3.6 -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-        <!-- sweet alert css -->
-    <link rel="stylesheet" href="/css/sweetalert.css">
-    
-  </head>
-  <body>
 
-    <h1><%= name %></h1>
-    <p>Total Balance: &#8377; <%= balance %></p>
-    
-    <div id="container"></div>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!-- sweet alert -->
-    <script src="/scripts/sweetalert.min.js"></script>
-    <script>
-     window.user_id = "<%= id %>";
-    </script>
-    <script src="/scripts/app.js"></script>
-  </body>
+<head>
+	<title>FusionBET</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>FusionBET | Log in</title>
+	<!-- Tell the browser to be responsive to screen width -->
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<!-- Bootstrap 3.3.6 -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	<link rel='stylesheet' href='/stylesheets/style.css' />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<!-- sweet alert css -->
+	<link rel="stylesheet" href="/css/sweetalert.css">
+
+</head>
+
+<body>
+
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+				aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">FusionBET</a>
+			</div>
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li class="active">
+						<a>Balance:
+							<span id="balance">
+								<%= user.balance %>
+							</span>
+						</a>
+					</li>
+					<li>
+						<a>
+							<%= user.name %>
+						</a>
+					</li>
+					<li>
+						<a href="/account/logout">Logout</a>
+					</li>
+				</ul>
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+	</nav>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-10">
+					<h3>FusionCharts Premire League</h3>
+			</div>
+			<div class="col-md-2 text-right">
+				<br>
+					<button class="btn btn-default" onclick="swal('Please contact FCCB members')">Add balance</button>
+			</div>
+		</div>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Description</th>
+					<th>Amount</th>
+          <th>Agree?</th>
+          <th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+      <% const questions_ids = bets.map(bet => String(bet.question_id)); let count = 0; %>
+      <% questions.forEach(que => { %>
+        <% count++; if (questions_ids.includes(String(que._id))) { %>
+           <tr class="success">
+             <% const bet_no = questions_ids.indexOf(String(que._id)) %>
+              <th scope="row"><%= count %></th>
+              <td><%= que.description %></td>
+              <td><%= bets[bet_no].amount %></td>
+              <td><%= bets[bet_no].opinion === true ? 'Yes' : 'No'%></td>
+              <td><%= 'Locked' %></td>
+          </tr>
+        <% } else { %>
+          <tr>
+            <th scope="row"><%= count %></th>
+            <td><%= que.description %></td>
+           
+            <td><input type="number" name="amount" class="form-control" id="<%= que._id %>_amount" value="0" min="0"></td>
+            <input type="hidden" value="<%= que._id %>" name="question_id">
+            <td>Yes: <input type="radio" value="true" name="opinion" id="<%= que._id %>_opinion_true" required>
+              No: <input type="radio" value="false" name="opinion" id="<%= que._id %>_opinion_false"required>
+            <td><button type="button" onclick="bet('<%= que._id %>')" class="btn btn-success btn-sm">Lock</button></td>
+          </tr>
+        <% } %>
+      <% }) %> 
+			</tbody>
+		</table>
+
+	</div>
+	<!-- /.container -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<!-- sweet alert -->
+	<script src="/scripts/sweetalert.min.js"></script>
+	<script>
+		window.user_id = "<%= user.id %>";
+
+	</script>
+	<script src="/scripts/app.js"></script>
+	<script>
+	
+	</script>
+</body>
+
 </html>

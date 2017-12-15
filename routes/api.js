@@ -127,6 +127,7 @@ router.post('/bet', requireLogin, (req, res) => {
   const question_id = req.body.question_id;
   const amount = req.body.amount;
   const opinion = req.body.opinion === 'true';
+  console.log(opinion);
   User.findById(user_id, (err, user) => {
     if (err) {
       return res.json({
@@ -160,7 +161,7 @@ router.post('/bet', requireLogin, (req, res) => {
       }
 
       Bet.find({ user_id, question_id }, (err, bet) => {
-        if (bet.length) {
+        if (bet && bet.length) {
           return res.json({ error: true });
         }
         const betS = new Bet({
