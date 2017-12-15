@@ -10,7 +10,7 @@
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	<!-- Bootstrap 3.3.6 -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
+ <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 	<link rel='stylesheet' href='/stylesheets/style.css' />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 	<!-- sweet alert css -->
@@ -31,17 +31,11 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">FusionBET</a>
+				<a class="navbar-brand" href="#">FusionCharts Premire League</a>
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav navbar-right">
-					<li class="active">
-						<a>Balance:
-							<span id="balance">
-								<%= user.balance %>
-							</span>
-						</a>
-					</li>
+					
 					<li>
 						<a>
 							<%= user.name %>
@@ -59,58 +53,63 @@
 	<div class="container">
 		<div class="row league-header">
 			<div class="col-md-10">
-				<h3>FusionCharts Premire League</h3>
+				<h3 class="active">
+					<a>PTS:
+						<span id="balance">
+							<%= user.balance %>
+						</span>
+					</a>
+				</h3>
 			</div>
-			<div class="col-md-2 text-center">
-				<br>
-				<button class="btn btn-default" onclick="swal('Please contact FCCB members')">Add balance</button>
-			</div>
+			
 		</div>
 		<div id="tbody">
+			
 			<% const questions_ids = bets.map(bet => String(bet.question_id)); let count = 0; %>
 				<% questions.forEach(que => { %>
 					<% count++; if (questions_ids.includes(String(que._id))) { %>
 						<div class="success" id="<%= String(que._id) %>">
 							<% const bet_no = questions_ids.indexOf(String(que._id)) %>
-								<div class="w3-card-2 bet-card">
-									<div class="locked-text">
+								<div class="w3-card-2 bet-card locked-card" id="<%= 'bet-card-' + String(que._id) %>">
+									<div class="locked-text" id="<%= 'locktext-' + String(que._id) %>">
 										<%= 'Locked' %>
 									</div>
 									<div class="bet-details">
-										<h1 class="bet-heading">
-											<%= que.description %>
-										</h1>
-										<div>
-											<div class="for">
-												For:
-												<span class="for-value" id="
-												<%= 'for-' + String(que._id) %>">
-													0
-												</span>
+											<div class="bet-heading" style="background-color: <%= colors[count]; %>">
+												<%= que.description %>
 											</div>
-											<div class="against">
-												Against:
-												<span class="against-value" id="
-												<%= 'against-' + String(que._id) %>">
-													0
-												</span>
+										<div class="mlr10">
+											<div class="">
+												<div class="for">
+													<button class="btn btn-primary for-color fr" type="button"> For
+														<span class="badge for-value"  id="<%= 'for-' + String(que._id) %>">>0</span>
+													</button>
+												</div>
+
+												<div class="against">
+													<button class="btn btn-primary against-color fl" type="button"> Against
+														<span class="badge against-value" id="<%= 'against-' + String(que._id) %>">>0</span>
+													</button>
+												</div>
+
+												<div style="clear: both"></div>
 											</div>
-											<div style="clear: both"></div>
-										</div>
-										<div>
-											<div class="amount">
-												Amount:
-												<span class="amount-value">
-													<%= bets[bet_no].amount %>
-												</span>
+											<hr />
+											<div>
+												<div class="amount">
+													Amount:
+													<span class="amount-value">
+														<%= bets[bet_no].amount %>
+													</span>
+												</div>
+												<div class="opinion">
+													Opinion:
+													<span class="opinion-value">
+														<%= bets[bet_no].opinion === true ? 'Yes' : 'No'%>
+													</span>
+												</div>
+												<div style="clear: both"></div>
 											</div>
-											<div class="opinion">
-												Opinion:
-												<span class="opinion-value">
-													<%= bets[bet_no].opinion === true ? 'Yes' : 'No'%>
-												</span>
-											</div>
-											<div style="clear: both"></div>
 										</div>
 									</div>
 								</div>
@@ -119,41 +118,80 @@
 
 							<div id="<%= String(que._id) %>">
 								<% const bet_no = questions_ids.indexOf(String(que._id)) %>
-									<div class="w3-card-2 bet-card">
+									<div class="w3-card-2 bet-card" id="<%= 'bet-card-' + String(que._id) %>">
+										<div class="locked-text" id="<%= 'locktext-' + String(que._id) %>" style="display: none">
+											<%= 'Locked' %>
+										</div>
 										<div class="bet-details">
-											<h1 class="bet-heading">
-												<%= que.description %>
-											</h1>
-											<div style="margin-bottom: 10px;">
-												<div class="for">
-													For:
-													<span class="for-value" id="
-																				<%= 'for-' + String(que._id) %>">
-														0
-													</span>
+												<div class="bet-heading" style="background-color: <%= colors[count]; %>">
+													<%= que.description %>
 												</div>
-												<div class="against">
-													Against:
-													<span class="against-value" id="
-																				<%= 'against-' + String(que._id) %>">
-														0
-													</span>
+											<div class="mlr10">
+												<div style="margin-bottom: 10px;">
+													<!-- <div class="for">
+														For:
+														<span class="for-value" id="<%= 'for-' + String(que._id) %>">
+															0
+														</span>
+													</div> -->
+
+													<div class="for">
+														<button class="btn btn-primary for-color fr" type="button"> For
+															<span class="badge for-value" id="<%= 'for-' + String(que._id) %>">>0</span>
+														</button>
+													</div>
+
+													<!-- <div class="against">
+														Against:
+														<span class="against-value" id="<%= 'against-' + String(que._id) %>">
+															0
+														</span>
+													</div> -->
+
+													<div class="against">
+														<button class="btn btn-primary against-color fl" type="button"> Against
+															<span class="badge against-value" id="<%= 'against-' + String(que._id) %>">>0</span>
+														</button>
+													</div>
+
+													<div style="clear: both"></div>
+													<hr />
 												</div>
-												<div style="clear: both"></div>
-											</div>
-											<div>
-												<div class="amount">
-													<input type="number" name="amount" class="form-control" id="<%= que._id %>_amount" value="0" min="0" placeholder="amount">
+												
+												<div id="<%= 'locked-input-stat-' + String(que._id) %>" style="display: none">
+													<div class="amount">
+														Amount:
+														<span class="amount-value">
+															
+														</span>
+													</div>
+													<div class="opinion">
+														Opinion:
+														<span class="opinion-value">
+															
+														</span>
+													</div>
+													<div style="clear: both"></div>
 												</div>
-												<div class="opinion">
-													Yes:
-													<input type="radio" value="true" name="opinion" id="<%= que._id %>_opinion_true" required> No:
-													<input type="radio" value="false" name="opinion" id="<%= que._id %>_opinion_false" required>
+												<div id="<%= 'input-holder-' + String(que._id) %>" >
+													<div class="amount">
+														<input type="number" name="amount" class="form-control" id="<%= que._id %>_amount" value="0" min="0" placeholder="amount" <%= isDisabled ? 'disabled': '' %>>
+													</div>
+													
+													<div class="opinion">
+														<label class="radio-inline">
+															<input type="radio" name="opinion" value="true" id="<%= que._id %>_opinion_true" required <%= isDisabled ? 'disabled': '' %>> YES
+														</label>
+														<label class="radio-inline">
+															<input type="radio" name="opinion" value="false" id="<%= que._id %>_opinion_false" required <%= isDisabled ? 'disabled': '' %>> NO
+														</label>
+													</div>
+
+													<div style="clear: both"></div>
 												</div>
-												<div style="clear: both"></div>
-											</div>
-											<div class="lock-btn-holder">
-												<button class="lock-btn" type="button" onclick="bet('<%= que._id %>')" class="btn btn-success btn-sm">Lock</button>
+												<div class="lock-btn-holder" id="<%= 'lock-btn-' + String(que._id) %>">
+													<button type="button" onclick="bet('<%= que._id %>')" class="btn btn-success lock-btn" <%= isDisabled ? 'disabled': '' %> >Lock</button>
+												</div>
 											</div>
 										</div>
 									</div>
@@ -165,11 +203,13 @@
 	</div>
 	<!-- /.container -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
 	<!-- sweet alert -->
 	<script src="/scripts/sweetalert.min.js"></script>
 	<script>
 		window.user_id = "<%= user.id %>";
-
+		window.balance = Number(<%= user.balance %>);
 	</script>
 	<script src="/scripts/app.js"></script>
 	<script>

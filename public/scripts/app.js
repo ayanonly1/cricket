@@ -28,24 +28,35 @@ function bet(question_id) {
 
 
 function updateUI(question_id, amount, opinion) {
-  $(`#${question_id}`).find('.amount').html(amount);
-  const yesOrno = opinion === true ? 'Yes' : 'No';
-  $(`#${question_id}`).find('.opinion').html(yesOrno);
-  $(`#${question_id}`).find('.action').html('Locked');
-  $(`#${question_id}`).addClass('success');
+  $(`#bet-card-${question_id}`).addClass('locked-card');
+  $(`#locktext-${question_id}`).css('display', 'block');
+  $(`#input-holder-${question_id}`).css('display', 'none');
+  $(`#lock-btn-${question_id}`).css('display', 'none');
+  const lockedInputStat = $(`#locked-input-stat-${question_id}`);
+  lockedInputStat.find('.amount-value').text(amount);
+
+  lockedInputStat.find('.opinion-value').text(opinion === true ? 'Yes' : 'No');
+  lockedInputStat.css('display', 'block');
+  window.balance = balance - amount;
+  $('#balance').text(balance);
+  updateBetStats();
 }
 
-/*
-$(document).ready(() => {
+function updateBetStats() {
   const trs = $('#tbody').children();
   trs.each((tr) => {
     (function (row) {
       const id = row.id;
       $.get(`/api/bet/${id}`, (d) => {
-        $(`#${id}`).append(`<td>${d.data.forOp}</td>`);
-        $(`#${id}`).append(`<td>${d.data.aginstOp}</td>`);
+        console.log(`#for-${id}`);
+        $(`#for-${id}`).text(d.data.forOp);
+        $(`#against-${id}`).text(d.data.aginstOp);
       });
     }(trs[tr]));
   });
+}
+
+$(document).ready(() => {
+  updateBetStats();
 });
-*/
+

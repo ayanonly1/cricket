@@ -1,6 +1,6 @@
 body {
     padding: 10px;
-    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    font: 14px Helvetica, Arial, sans-serif;
 }
 
 a {
@@ -8,24 +8,64 @@ a {
 }
 
 .locked-text {
-    padding: 1px;
-    color: white;
-    background: green;
-    font-size: 10px;
+    padding: 10px;
+    color: black;
+    background: #ddd;
+    font-size: 12px;
     float: right;
 }
 
 .bet-card {
-    padding: 0px 0 10px 10px;
-    margin-bottom: 15px;
+    padding: 0px 0 10px 0px;
+    margin-bottom: 25px;
 }
 
 .bet-heading {
     font-size: 20px;
+    margin-bottom: 15px;
+    padding: 20px 10px;
+    color: white;
+    /* box-shadow: 0px 2px 2px -2px; */
 }
 
 .bet-details {
-    padding: 10px;
+    /* padding: 10px; */
+}
+
+.mlr10 {
+    margin: 0 10px;
+}
+
+.mb10 {
+    margin-bottom: 10px;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.for-color {
+    background: #89729E;
+    border: none;
+    border-radius: 0;
+}
+
+.against-color {
+    background: #48929B;
+    border: none;
+    border-radius: 0;
+}
+
+.locked-card {
+    background: #ddd;
+}
+
+hr {
+    margin: 15px 0 !important;
 }
 
 .amount,
@@ -46,6 +86,10 @@ a {
     width: 50%;
 }
 
+.against {
+    padding-left: 10px;
+}
+
 .lock-btn-holder {
     text-align: right;
     padding: 10px 0 0 0;
@@ -53,9 +97,18 @@ a {
 
 .league-header {
     margin: 60px 0 20px 0;
+    font-weight: bold;
 }
 
 .league-header h3 {
     margin: 0;
     text-align: center;
 }
+
+.lock-btn {
+    background-color: #26A65B;
+    border-radius: 0;
+}
+
+
+/*# sourceMappingURL=style.css.map */

@@ -1,7 +1,7 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const config = require('../config/index');
-
+const { emitDataToall } = require('../app');
 // models
 const User = require('../models/User');
 const Question = require('../models/Question');
@@ -140,7 +140,6 @@ router.post('/bet', requireLogin, (req, res) => {
     });
   }
   const opinion = req.body.opinion === 'true';
-  console.log(opinion);
   User.findById(user_id, (err, user) => {
     if (err) {
       return res.json({
@@ -149,7 +148,7 @@ router.post('/bet', requireLogin, (req, res) => {
       });
     }
 
-    if (user.balance <= amount) {
+    if (user.balance < amount) {
       return res.json({
         error: true,
         message: 'Not sufficient balance',
@@ -173,9 +172,14 @@ router.post('/bet', requireLogin, (req, res) => {
         });
       }
 
-      Bet.find({ user_id, question_id }, (err, bet) => {
+      Bet.find({
+        user_id,
+        question_id,
+      }, (err, bet) => {
         if (bet && bet.length) {
-          return res.json({ error: true });
+          return res.json({
+            error: true,
+          });
         }
         const betS = new Bet({
           user_id,
@@ -189,9 +193,11 @@ router.post('/bet', requireLogin, (req, res) => {
               error: true,
             });
           }
-          res.json({
-            error: false,
-            data: betS,
+          emitToAll(req, question_id, () => {
+            res.json({
+              error: false,
+              data: betS,
+            });
           });
         });
       });
@@ -199,11 +205,41 @@ router.post('/bet', requireLogin, (req, res) => {
   });
 });
 
+
+function emitToAll(req, question_id, done) {
+  let forOp = 0;
+  let aginstOp = 0;
+
+  Bet.find({
+    question_id,
+  }, (err, bets) => {
+    if (err) {
+      return;
+    }
+    bets.forEach((bet) => {
+      if (bet.opinion) {
+        forOp += bet.amount;
+      } else {
+        aginstOp += bet.amount;
+      }
+    });
+    console.log('Emitting');
+    req.io.emit({
+      forOp,
+      aginstOp,
+    });
+    done();
+  });
+}
+
+
 router.get('/bet/:question_id', (req, res) => {
   const question_id = req.params.question_id;
   let forOp = 0;
   let aginstOp = 0;
-  Bet.find({ question_id }, (err, bets) => {
+  Bet.find({
+    question_id,
+  }, (err, bets) => {
     if (err) {
       return res.json({
         error: true,
@@ -220,7 +256,8 @@ router.get('/bet/:question_id', (req, res) => {
     return res.json({
       error: false,
       data: {
-        forOp, aginstOp,
+        forOp,
+        aginstOp,
       },
     });
   });
