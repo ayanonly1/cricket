@@ -132,6 +132,13 @@ router.post('/bet', requireLogin, (req, res) => {
       message: 'Do not be so negative',
     });
   }
+
+  if (amount < 20) {
+    return res.json({
+      error: true,
+      message: 'Minimum Rs 20 required',
+    });
+  }
   const opinion = req.body.opinion === 'true';
   console.log(opinion);
   User.findById(user_id, (err, user) => {

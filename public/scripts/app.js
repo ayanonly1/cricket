@@ -21,9 +21,18 @@ function bet(question_id) {
     if (data.error) {
       swal('Error!', data.message, 'error');
     } else {
-      window.location.reload();
+      updateUI(question_id, amount, opinion);
     }
   });
+}
+
+
+function updateUI(question_id, amount, opinion) {
+  $(`#${question_id}`).find('.amount').html(amount);
+  const yesOrno = opinion === true ? 'Yes' : 'No';
+  $(`#${question_id}`).find('.opinion').html(yesOrno);
+  $(`#${question_id}`).find('.action').html('Locked');
+  $(`#${question_id}`).addClass('success');
 }
 
 
