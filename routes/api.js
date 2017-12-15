@@ -125,7 +125,7 @@ router.get('/question', requireLogin, (req, res) => {
 router.post('/bet', requireLogin, (req, res) => {
   const user_id = req.session.user.id;
   const question_id = req.body.question_id;
-  const amount = req.body.amount;
+  const amount = req.body.amount > 0 ? req.body.amount : 0;
   const opinion = req.body.opinion === 'true';
   console.log(opinion);
   User.findById(user_id, (err, user) => {
