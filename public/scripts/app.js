@@ -33,6 +33,8 @@ function updateUI(question_id, amount, opinion) {
   $(`#${question_id}`).find('.opinion').html(yesOrno);
   $(`#${question_id}`).find('.action').html('Locked');
   $(`#${question_id}`).addClass('success');
+  window.balance = balance - amount;
+  $('#balance').html(balance);
 }
 
 
@@ -42,9 +44,15 @@ $(document).ready(() => {
     (function (row) {
       const id = row.id;
       $.get(`/api/bet/${id}`, (d) => {
-        $(`#${id}`).append(`<td>${d.data.forOp}</td>`);
-        $(`#${id}`).append(`<td>${d.data.aginstOp}</td>`);
+        $(`#${id}`).append(`<td class="for">${d.data.forOp}</td>`);
+        $(`#${id}`).append(`<td class="against">${d.data.aginstOp}</td>`);
       });
     }(trs[tr]));
   });
+});
+
+const socket = io();
+
+socket.on('new-bet', (data) => {
+  console.log(data);
 });

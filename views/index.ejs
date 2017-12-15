@@ -65,7 +65,7 @@
 					<button class="btn btn-default" onclick="swal('Please contact FCCB members')">Add balance</button>
 			</div>
 		</div>
-		<table class="table table-bordered">
+		<table class="table table-bordered table-responsive">
 			<thead>
 				<tr>
 					<th>#</th>
@@ -81,7 +81,7 @@
       <% const questions_ids = bets.map(bet => String(bet.question_id)); let count = 0; %>
       <% questions.forEach(que => { %>
         <% count++; if (questions_ids.includes(String(que._id))) { %>
-           <tr class="success" id="<%= String(que._id) %>" onload="console.log(this.id)">
+           <tr class="success" id="<%= String(que._id) %>">
              <% const bet_no = questions_ids.indexOf(String(que._id)) %>
               <th scope="row"><%= count %></th>
               <td><%= que.description %></td>
@@ -108,16 +108,16 @@
 	</div>
 	<!-- /.container -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
 	<!-- sweet alert -->
 	<script src="/scripts/sweetalert.min.js"></script>
 	<script>
 		window.user_id = "<%= user.id %>";
-
+		window.balance = Number(<%= user.balance %>);
 	</script>
 	<script src="/scripts/app.js"></script>
-	<script>
 	
-	</script>
 </body>
 
 </html>
