@@ -7,7 +7,7 @@ function bet(question_id) {
     return swal('Please choose any one of the option');
   }
   const data = { question_id, amount, opinion: (opinion_true || opinion_false) };
-  
+
   $.post('/api/bet', data, (data) => {
     if (data.error) {
       swal('Error!', data.message, 'error');
@@ -16,3 +16,17 @@ function bet(question_id) {
     }
   });
 }
+
+
+$(document).ready(() => {
+  const trs = $('#tbody').children();
+  trs.each((tr) => {
+    (function (row) {
+      const id = row.id;
+      $.get(`/api/bet/${id}`, (d) => {
+        $(`#${id}`).append(`<td>${d.data.forOp}</td>`);
+        $(`#${id}`).append(`<td>${d.data.aginstOp}</td>`);
+      });
+    }(trs[tr]));
+  });
+});

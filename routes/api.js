@@ -192,4 +192,31 @@ router.post('/bet', requireLogin, (req, res) => {
   });
 });
 
+router.get('/bet/:question_id', (req, res) => {
+  const question_id = req.params.question_id;
+  let forOp = 0;
+  let aginstOp = 0;
+  Bet.find({ question_id }, (err, bets) => {
+    if (err) {
+      return res.json({
+        error: true,
+        message: err.toString(),
+      });
+    }
+    bets.forEach((bet) => {
+      if (bet.opinion) {
+        forOp += bet.amount;
+      } else {
+        aginstOp += bet.amount;
+      }
+    });
+    return res.json({
+      error: false,
+      data: {
+        forOp, aginstOp,
+      },
+    });
+  });
+});
+
 module.exports = router;
