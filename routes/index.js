@@ -5,6 +5,7 @@ const { requireLogin } = require('../middlewares/index');
 const User = require('../models/User');
 const Question = require('../models/Question');
 const Bet = require('../models/Bet');
+const { isDisabled } = require('../config/index');
 
 /* GET home page. */
 router.get('/', requireLogin, (req, res) => {
@@ -22,7 +23,9 @@ router.get('/', requireLogin, (req, res) => {
         if (err) {
           res.status(503).send('Sorry!');
         }
-        res.render('index', { user, questions, bets });
+        res.render('index', {
+          user, questions, bets, isDisabled,
+        });
       });
     });
   });

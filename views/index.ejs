@@ -94,11 +94,11 @@
             <th scope="row"><%= count %></th>
             <td><%= que.description %></td>
            
-            <td class="amount"><input type="number" name="amount" class="form-control" id="<%= que._id %>_amount" value="0" min="0"></td>
+            <td class="amount"><input type="number" name="amount" class="form-control" id="<%= que._id %>_amount" value="0" min="0" <%= isDisabled ? 'disabled': '' %>></td>
            
             <td class="opinion">Yes: <input type="radio" value="true" name="opinion" id="<%= que._id %>_opinion_true" required>
               No: <input type="radio" value="false" name="opinion" id="<%= que._id %>_opinion_false"required>
-            <td class="action"><button type="button" onclick="bet('<%= que._id %>')" class="btn btn-success btn-sm">Lock</button></td>
+            <td class="action"><button type="button" onclick="bet('<%= que._id %>')" class="btn btn-success btn-sm" <%= isDisabled ? 'disabled': '' %> >Lock</button></td>
           </tr>
         <% } %>
       <% }) %> 
