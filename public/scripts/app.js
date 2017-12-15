@@ -6,7 +6,16 @@ function bet(question_id) {
   if (!opinion_true && !opinion_false) {
     return swal('Please choose any one of the option');
   }
-  const data = { question_id, amount, opinion: (opinion_true || opinion_false) };
+
+  let opinion;
+  if (opinion_true) {
+    opinion = true;
+  }
+  if (opinion_false) {
+    opinion = false;
+  }
+
+  const data = { question_id, amount, opinion };
 
   $.post('/api/bet', data, (data) => {
     if (data.error) {
