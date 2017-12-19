@@ -63,7 +63,7 @@ function updateBetStats() {
             // I am correct
             if (result) {
               // for is correct
-              if (d.data.forC === 1 && d.data.forOp === myAmount) {
+              if (d.data.forC === 1 && d.data.forOp === myAmount && d.data.againstC === 0) {
                 console.log('Only I am for');
                 window.balance += myAmount;
                 $('#'+id).find('.text-result').text('You won ' + myAmount);
@@ -75,7 +75,7 @@ function updateBetStats() {
               }
             } else {
               // aginst is correct
-              if (d.data.againstC === 1 && d.data.aginstOp === myAmount) {
+              if (d.data.againstC === 1 && d.data.aginstOp === myAmount && d.data.forC === 0) {
                 console.log('Only I am against');
                 window.balance += myAmount;
                 $('#'+id).find('.text-result').text('You won ' + myAmount);
