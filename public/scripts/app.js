@@ -1,3 +1,4 @@
+/* eslint-disable */
 function bet(question_id) {
   console.log(question_id);
   const amount = $(`#${question_id}_amount`).val();
@@ -41,16 +42,72 @@ function updateUI(question_id, amount, opinion) {
   $('#balance').text(balance);
   updateBetStats();
 }
-
+window.realBal = 0;
 function updateBetStats() {
   const trs = $('#tbody').children();
   trs.each((tr) => {
     (function (row) {
       const id = row.id;
       $.get(`/api/bet/${id}`, (d) => {
-        console.log(`#for-${id}`);
         $(`#for-${id}`).text(d.data.forOp);
         $(`#against-${id}`).text(d.data.aginstOp);
+        const myAmount = Number($(`#${id}`).find('.amount-value').html().trim());
+        // window.balance += myAmount;
+
+        window.realBal += myAmount;
+        const myOpinion = String($(`#${id}`).find('.opinion-value').html().trim()) === 'Yes';
+        if ($(`#${id}`).hasClass('success')) {
+          const result = String($(`#${id}`).find('.result').html().trim()) === 'Yes';
+          // console.log(d.data, myAmount, myOpinion);
+          if (result === myOpinion) {
+            // I am correct
+            if (result) {
+              // for is correct
+              if (d.data.forC === 1 && d.data.forOp === myAmount) {
+                console.log('Only I am for');
+                window.balance += myAmount;
+                $('#'+id).find('.text-result').text('You won ' + myAmount);
+              } else {
+                var extraGet = (myAmount / d.data.forOp ) * d.data.aginstOp;
+                var gain = (extraGet + myAmount);
+                window.balance += gain;
+                $('#'+id).find('.text-result').text('You won ' + gain.toFixed(2));
+              }
+            } else {
+              // aginst is correct
+              if (d.data.againstC === 1 && d.data.aginstOp === myAmount) {
+                console.log('Only I am against');
+                window.balance += myAmount;
+                $('#'+id).find('.text-result').text('You won ' + myAmount);
+              } else {
+                var extraGet = (myAmount / d.data.aginstOp ) * d.data.forOp;
+                var gain = (extraGet + myAmount);
+                window.balance += gain;
+                $('#'+id).find('.text-result').text('You won ' + gain.toFixed(2));
+              }
+            }
+          } else {
+            // I am wrong
+            if (myOpinion) {
+              if (d.data.againstC === 0) {
+                console.log('Only I am wrong, no oponent');
+                window.balance += myAmount;
+                $('#'+id).find('.text-result').text('You won ' + myAmount);
+              } else {
+                $('#'+id).find('.text-result').text('You lost ' + myAmount);
+              }
+            } else {
+              if (d.data.forC === 0) {
+              console.log('Only I am wrong, no oponent');
+              window.balance += myAmount;
+              $('#'+id).find('.text-result').text('You won ' + myAmount);
+            } else {
+              $('#'+id).find('.text-result').text('You lost ' + myAmount);
+            }
+          }
+          }
+        }
+        $('#balance').text(Math.round(balance* 100)/ 100);
       });
     }(trs[tr]));
   });

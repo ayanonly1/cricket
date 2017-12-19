@@ -246,10 +246,14 @@ router.get('/bet/:question_id', (req, res) => {
         message: err.toString(),
       });
     }
+    let forC = 0;
+    let againstC = 0;
     bets.forEach((bet) => {
       if (bet.opinion) {
+        forC += 1;
         forOp += bet.amount;
       } else {
+        againstC += 1;
         aginstOp += bet.amount;
       }
     });
@@ -257,7 +261,9 @@ router.get('/bet/:question_id', (req, res) => {
       error: false,
       data: {
         forOp,
+        forC,
         aginstOp,
+        againstC,
       },
     });
   });

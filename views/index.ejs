@@ -76,19 +76,24 @@
 									</div>
 									<div class="bet-details">
 											<div class="bet-heading" style="background-color: <%= colors[count]; %>">
-												<%= que.description %>
+												<%= que.description %> <hr> Result: <span class="result"><%= que.result ? 'Yes': 'No' %></span> <hr>
+												
+												<% if  (bets[bet_no].opinion === que.result) { %> 
+													<h4 class="text-result">You won</h4> 
+													 <% } else { %> 
+													<h4 class="text-result">You lost</h4>
+													<% } %>
 											</div>
 										<div class="mlr10">
 											<div class="">
 												<div class="for">
 													<button class="btn btn-primary for-color fr" type="button"> For
-														<span class="badge for-value"  id="<%= 'for-' + String(que._id) %>">>0</span>
+														<span class="badge for-value"  id="<%= 'for-' + String(que._id) %>">0</span>
 													</button>
 												</div>
-
 												<div class="against">
 													<button class="btn btn-primary against-color fl" type="button"> Against
-														<span class="badge against-value" id="<%= 'against-' + String(que._id) %>">>0</span>
+														<span class="badge against-value" id="<%= 'against-' + String(que._id) %>">0</span>
 													</button>
 												</div>
 
@@ -124,7 +129,7 @@
 										</div>
 										<div class="bet-details">
 												<div class="bet-heading" style="background-color: <%= colors[count]; %>">
-													<%= que.description %>
+													<%= que.description %> <hr> Result: <%= que.result ? 'Yes': 'No' %>
 												</div>
 											<div class="mlr10">
 												<div style="margin-bottom: 10px;">
@@ -137,7 +142,7 @@
 
 													<div class="for">
 														<button class="btn btn-primary for-color fr" type="button"> For
-															<span class="badge for-value" id="<%= 'for-' + String(que._id) %>">>0</span>
+															<span class="badge for-value" id="<%= 'for-' + String(que._id) %>">0</span>
 														</button>
 													</div>
 
@@ -150,7 +155,7 @@
 
 													<div class="against">
 														<button class="btn btn-primary against-color fl" type="button"> Against
-															<span class="badge against-value" id="<%= 'against-' + String(que._id) %>">>0</span>
+															<span class="badge against-value" id="<%= 'against-' + String(que._id) %>">0</span>
 														</button>
 													</div>
 

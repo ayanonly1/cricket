@@ -5,5 +5,9 @@ const QuestionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+
+  result: {
+    type: Boolean,
+  },
 });
-module.exports = mongoose.model('Question', QuestionSchema);
+module.exports = mongoose.model('Question', QuestionSchema, 'questions_local_updated');

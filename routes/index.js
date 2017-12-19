@@ -25,8 +25,10 @@ router.get('/', requireLogin, (req, res) => {
         if (err) {
           res.status(503).send('Sorry!');
         }
-        res.render('index', {
-          user, questions, bets, isDisabled, colors,
+        Bet.find({}).populate('user_id', 'question_id').exec((err, bets_data) => {
+          res.render('index', {
+            user, questions, bets, isDisabled, colors, bets_data,
+          });
         });
       });
     });
