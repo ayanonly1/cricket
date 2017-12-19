@@ -59,6 +59,7 @@
 							<%= user.balance %>
 						</span>
 					</a>
+
 				</h3>
 			</div>
 			
@@ -215,6 +216,7 @@
 	<script>
 		window.user_id = "<%= user.id %>";
 		window.balance = Number(<%= user.balance %>);
+		window.user_email = "<%= user.contactEmail %>";
 	</script>
 	<script src="/scripts/app.js"></script>
 	<script>

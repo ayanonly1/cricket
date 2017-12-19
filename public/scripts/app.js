@@ -107,7 +107,8 @@ function updateBetStats() {
           }
           }
         }
-        $('#balance').text(Math.round(balance* 100)/ 100);
+        let bal = Math.round(balance* 100) / 100;
+        $('#balance').text(bal);
       });
     }(trs[tr]));
   });
