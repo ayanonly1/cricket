@@ -91,16 +91,16 @@ function updateBetStats() {
             if (myOpinion) {
               if (d.data.againstC === 0) {
                 console.log('Only I am wrong, no oponent');
-                window.balance += myAmount;
-                $('#'+id).find('.text-result').text('You won ' + myAmount);
+                // window.balance += myAmount;
+                $('#'+id).find('.text-result').text('As a donation ' + myAmount);
               } else {
                 $('#'+id).find('.text-result').text('You lost ' + myAmount);
               }
             } else {
               if (d.data.forC === 0) {
               console.log('Only I am wrong, no oponent');
-              window.balance += myAmount;
-              $('#'+id).find('.text-result').text('You won ' + myAmount);
+              // window.balance += myAmount;
+              $('#'+id).find('.text-result').text('As a donation ' + myAmount);
             } else {
               $('#'+id).find('.text-result').text('You lost ' + myAmount);
             }
